@@ -21,10 +21,14 @@ func (rej reject) Rejection() string {
 	return string(payload)
 }
 
+type logons struct {
+	Email  string `json:"email"`
+}
+
 type user struct {
-	Nick  string `json:"nick"`
-	Email string `json:"email"`
-	Token string `json:"token"`
+	Nick   string `json:"nick"`
+	Token  string `json:"token"`
+	Logons logons `json:"logons"`
 }
 
 type request struct {
