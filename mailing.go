@@ -49,7 +49,7 @@ func emailFromReq(req request) (em email, rej rejection) {
 	}
 
 	u := req.User
-	if u.Nick == "" || u.Email == "" {
+	if u.Nick == "" || u.Logons.Email == "" {
 		return em, newReject("invalid data", "nick and email should not be empty")
 	}
 
@@ -59,7 +59,7 @@ func emailFromReq(req request) (em email, rej rejection) {
 
 	validEmail := regexp.MustCompile(emailPattern)
 
-	if !validEmail.MatchString(u.Email) {
+	if !validEmail.MatchString(u.Logons.Email) {
 		return em, newReject("invalid data", "invalid email address")
 	}
 
@@ -71,7 +71,7 @@ func emailFromReq(req request) (em email, rej rejection) {
 
 	tpl.Execute(&buf, u)
 
-	em = email{To: u.Email, Subject: subject, Body: buf.String()}
+	em = email{To: u.Logons.Email, Subject: subject, Body: buf.String()}
 
 	return em, rej
 }

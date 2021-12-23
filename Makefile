@@ -23,13 +23,15 @@ build: $(TARGET)
 clean:
 	rm -f $(BINDATA) $(TARGET) $(DEBUGTARGET)
 
-.PHONY: build clean debug run
+.PHONY: image build clean debug run
 
 $(BINDATA): $(TEMPLATES) $(ASSETS)
 	go-bindata $(BINDATAFLAGS) $(ASSETS)
 
-$(TARGET): $(VENDOR) $(SRCS) $(BINDATA)
+$(TARGET): $(SRCS) $(BINDATA)
 	go build -o $(TARGET) $(SRCS) 
 
 $(VENDOR):
-	glide up
+	go mod download
+	go mod tidy
+	go mod vendor
